@@ -1,5 +1,6 @@
 using Ephemera.ElementModels;
 using Ephemera.Managers;
+using Microsoft.VisualBasic.Devices;
 using System.Windows.Forms;
 
 namespace Ephemera
@@ -9,6 +10,10 @@ namespace Ephemera
         private WorldController world;
         private CanvasManager canvas;
         private GameLoop gameLoop;
+        private bool isMouseDown = false;
+        private int mouseX;
+        private int mouseY;
+
         public MainForm()
         {
 
@@ -22,7 +27,7 @@ namespace Ephemera
 
         private void sandBox_Click(object sender, MouseEventArgs e)
         {
-            if (comboBoxElements.SelectedIndex != -1) 
+            if (comboBoxElements.SelectedIndex != -1)
             {
                 string selected = comboBoxElements.SelectedItem.ToString();
                 ElementBase element = null;
@@ -51,5 +56,56 @@ namespace Ephemera
             world.Reset();
             canvas.ClearCanvas();
         }
+
+        private void sandBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            isMouseDown = true;
+            mouseX = e.X;
+            mouseY = e.Y;
+            AddElement(e.X, e.Y);
+        }
+
+        private void sandBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isMouseDown)
+            {
+                AddElement(e.X, e.Y);
+            }
+        }
+
+        private void sandBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            isMouseDown = false;
+            
+        }
+ 
+        private void AddElement(int x, int y)
+        {
+            if (comboBoxElements.SelectedIndex != -1)
+            {
+                string selected = comboBoxElements.SelectedItem.ToString();
+                ElementBase element = null;
+
+                if (selected == "Огонь") element = new Fire(x, y);
+                else if (selected == "Земля") element = new Soil(x, y);
+
+                if (element != null)
+                {
+                    element.Width = (int)elementSizeNumericUpDown.Value;
+                    element.Height = (int)elementSizeNumericUpDown.Value;
+
+                    // Проверяем, нет ли уже элемента в этом месте
+                    bool hasCollision = world.Elements.Any(e => world.CheckCollision(e, element));
+
+                    if (!hasCollision || selected == "Огонь")
+                    {
+                        world.AddElement(element);
+                    }
+                    canvas.Redraw();
+                }
+            }
+        }
+
+
     }
 }

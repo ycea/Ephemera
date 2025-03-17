@@ -49,7 +49,9 @@
             sandBox.Size = new Size(588, 483);
             sandBox.TabIndex = 0;
             sandBox.TabStop = false;
-            sandBox.MouseClick += sandBox_Click;
+            sandBox.MouseDown += sandBox_MouseDown;
+            sandBox.MouseMove += sandBox_MouseMove;
+            sandBox.MouseUp += sandBox_MouseUp;
             // 
             // panel1
             // 

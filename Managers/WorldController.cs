@@ -27,8 +27,15 @@ namespace Ephemera.Managers
 
         public bool CheckCollision(ElementBase a, ElementBase b)
         {
-            return (Math.Abs(a.X - b.X) < a.Width) && (Math.Abs(a.Y - b.Y) < a.Height);
+            int penetrationDepth = 3; // Допуск на проникновение (например, 3 пикселя)
+
+            return a.X < b.X + b.Width &&
+                   a.X + a.Width > b.X &&
+                   a.Y < b.Y + b.Height + penetrationDepth &&  // Позволяем слегка зайти в объект
+                   a.Y + a.Height > b.Y - penetrationDepth;    // Но не проваливаться полностью
         }
+
+
 
         public void UpdateAll()
         {
