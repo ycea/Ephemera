@@ -59,7 +59,7 @@ namespace Ephemera.ElementModels
             {
                 if (element is Soil)
                 {
-                    if (world.CheckCollision(this, element) )
+                    if (world.CheckMainCollision(this, element) && element.State != BasicStates.Burnt)
                     {
                         element.State = BasicStates.Burning;
                     }

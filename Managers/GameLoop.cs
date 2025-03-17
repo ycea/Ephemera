@@ -14,7 +14,7 @@ namespace Ephemera.Managers
             world = wc;
             canvas = cm;
             timer = new System.Windows.Forms.Timer();
-            timer.Interval = 100; // 10 кадров в секунду
+            timer.Interval = wc.IntervalOfMomet; // 10 кадров в секунду
             timer.Tick += (s, e) => Run();
         }
 

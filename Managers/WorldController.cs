@@ -9,6 +9,7 @@ namespace Ephemera.Managers
         private List<ElementBase> toRemove = new List<ElementBase>();
         public int Width { get; private set; }
         public int Height { get; private set; }
+        public int IntervalOfMomet { get; private set; } = 200;
         public void AddElement(ElementBase element)
         {
             Elements.Add(element);
@@ -24,16 +25,26 @@ namespace Ephemera.Managers
         {
             toRemove.Add(element);
         }
+        public bool CheckMainCollision(ElementBase a, ElementBase b)
+        {
+            int penetrationDepth = 3; // Максимально допустимое пересечение
 
+            return a.X < b.X + b.Width + penetrationDepth && // Позволяем небольшой заход справа
+                   a.X + a.Width > b.X - penetrationDepth && // Позволяем небольшой заход слева
+                   a.Y < b.Y + b.Height + penetrationDepth && // Позволяем небольшой заход снизу
+                   a.Y + a.Height > b.Y - penetrationDepth;   // Позволяем небольшой заход сверху
+
+        }
         public bool CheckCollision(ElementBase a, ElementBase b)
         {
-            int penetrationDepth = 3; // Допуск на проникновение (например, 3 пикселя)
+            int penetrationDepth = 3; // Максимально допустимое пересечение
 
-            return a.X < b.X + b.Width &&
-                   a.X + a.Width > b.X &&
-                   a.Y < b.Y + b.Height + penetrationDepth &&  // Позволяем слегка зайти в объект
-                   a.Y + a.Height > b.Y - penetrationDepth;    // Но не проваливаться полностью
+            return a.X < b.X + b.Width - penetrationDepth && 
+                   a.X + a.Width > b.X + penetrationDepth && 
+                   a.Y < b.Y + b.Height + penetrationDepth &&
+                   a.Y + a.Height > b.Y - penetrationDepth ;   
         }
+
 
 
 

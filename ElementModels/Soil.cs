@@ -53,15 +53,15 @@ namespace Ephemera.ElementModels
 
         public override void Update(WorldController world)
         {
-            CheckGrassBurning(); // Проверяем, может ли загореться трава
+            CheckGrassBurning();
 
             if (State == BasicStates.Burnt)
             {
                 grassState = GrassStates.None; // На сгоревшей земле трава не растет
-                return; // Ничего больше не делаем
+                return; // Выходим, больше ничего не обновляем
             }
 
-            if (grassState == GrassStates.None && world.RandomChance(10)) // 10% шанс начать рост
+            if (grassState == GrassStates.None && world.RandomChance(10))
             {
                 grassState = GrassStates.Growing;
                 grassGrowthTime = 0;
@@ -69,7 +69,7 @@ namespace Ephemera.ElementModels
             else if (grassState == GrassStates.Growing)
             {
                 grassGrowthTime++;
-                if (grassGrowthTime >= 5) // Через 5 циклов трава вырастает
+                if (grassGrowthTime >= world.IntervalOfMomet/10)
                 {
                     grassState = GrassStates.FullyGrown;
                 }
@@ -77,33 +77,34 @@ namespace Ephemera.ElementModels
             else if (grassState == GrassStates.Burning)
             {
                 burnTime++;
-                if (State != BasicStates.Burning) // Поджигаем землю только один раз
+                if (State != BasicStates.Burning)
                 {
                     State = BasicStates.Burning;
                 }
 
                 IgniteOthers(world);
 
-                if (burnTime >= 5) // Через 5 циклов земля становится "Burnt"
+                if (burnTime >= world.IntervalOfMomet/20)
                 {
-                    grassState = GrassStates.None; // Трава исчезает
-                    State = BasicStates.Burnt;
-                    burnTime = 0; // Сброс таймера
+                    grassState = GrassStates.None;
+                    State = BasicStates.Burnt; // Теперь земля становится навсегда Burnt
+                    burnTime = 0;
                 }
             }
         }
 
+
         public void CheckGrassBurning()
         {
-            if (State == BasicStates.Burning && (grassState == GrassStates.Growing || grassState == GrassStates.FullyGrown))
+            if (State == BasicStates.Burning)
             {
-                grassState = GrassStates.Burning;
-            }
-            else if(State == BasicStates.Burning)
-            {
-                State = BasicStates.Normal;
+                if (grassState == GrassStates.Growing || grassState == GrassStates.FullyGrown)
+                {
+                    grassState = GrassStates.Burning;
+                }
             }
         }
+
 
         public void Ignite()
         {
