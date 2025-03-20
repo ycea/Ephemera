@@ -28,13 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             sandBox = new PictureBox();
             panel1 = new Panel();
+            CurrentElement = new Label();
+            FireButton = new Button();
+            WaterButton = new Button();
+            Stone = new Button();
+            SoilButton = new Button();
+            label2 = new Label();
             elementSizeNumericUpDown = new NumericUpDown();
             stopGameButton = new Button();
             startGameButton = new Button();
-            label1 = new Label();
-            comboBoxElements = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)sandBox).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)elementSizeNumericUpDown).BeginInit();
@@ -46,7 +51,7 @@
             sandBox.BorderStyle = BorderStyle.FixedSingle;
             sandBox.Location = new Point(12, 24);
             sandBox.Name = "sandBox";
-            sandBox.Size = new Size(588, 483);
+            sandBox.Size = new Size(639, 545);
             sandBox.TabIndex = 0;
             sandBox.TabStop = false;
             sandBox.MouseDown += sandBox_MouseDown;
@@ -55,20 +60,82 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(CurrentElement);
+            panel1.Controls.Add(FireButton);
+            panel1.Controls.Add(WaterButton);
+            panel1.Controls.Add(Stone);
+            panel1.Controls.Add(SoilButton);
+            panel1.Controls.Add(label2);
             panel1.Controls.Add(elementSizeNumericUpDown);
             panel1.Controls.Add(stopGameButton);
             panel1.Controls.Add(startGameButton);
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(comboBoxElements);
             panel1.Dock = DockStyle.Right;
-            panel1.Location = new Point(620, 0);
+            panel1.Location = new Point(671, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(249, 531);
+            panel1.Size = new Size(249, 593);
             panel1.TabIndex = 1;
+            // 
+            // CurrentElement
+            // 
+            CurrentElement.AutoSize = true;
+            CurrentElement.Location = new Point(31, 17);
+            CurrentElement.Name = "CurrentElement";
+            CurrentElement.Size = new Size(133, 20);
+            CurrentElement.TabIndex = 10;
+            CurrentElement.Text = "Текущий элемент:";
+            // 
+            // FireButton
+            // 
+            FireButton.BackColor = Color.Red;
+            FireButton.Location = new Point(78, 106);
+            FireButton.Name = "FireButton";
+            FireButton.Size = new Size(38, 30);
+            FireButton.TabIndex = 9;
+            FireButton.UseVisualStyleBackColor = false;
+            FireButton.Click += FireButton_Click;
+            // 
+            // WaterButton
+            // 
+            WaterButton.BackColor = Color.CornflowerBlue;
+            WaterButton.Location = new Point(78, 53);
+            WaterButton.Name = "WaterButton";
+            WaterButton.Size = new Size(38, 33);
+            WaterButton.TabIndex = 8;
+            WaterButton.UseVisualStyleBackColor = false;
+            WaterButton.Click += WaterButton_Click;
+            // 
+            // Stone
+            // 
+            Stone.BackColor = SystemColors.ControlDark;
+            Stone.Location = new Point(31, 106);
+            Stone.Name = "Stone";
+            Stone.Size = new Size(41, 30);
+            Stone.TabIndex = 7;
+            Stone.UseVisualStyleBackColor = false;
+            Stone.Click += Stone_Click;
+            // 
+            // SoilButton
+            // 
+            SoilButton.BackColor = Color.SaddleBrown;
+            SoilButton.Location = new Point(31, 53);
+            SoilButton.Name = "SoilButton";
+            SoilButton.Size = new Size(41, 33);
+            SoilButton.TabIndex = 6;
+            SoilButton.UseVisualStyleBackColor = false;
+            SoilButton.Click += SoilButton_Click;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(50, 330);
+            label2.Name = "label2";
+            label2.Size = new Size(129, 20);
+            label2.TabIndex = 5;
+            label2.Text = "Размер элемента";
             // 
             // elementSizeNumericUpDown
             // 
-            elementSizeNumericUpDown.Location = new Point(34, 225);
+            elementSizeNumericUpDown.Location = new Point(47, 370);
             elementSizeNumericUpDown.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
             elementSizeNumericUpDown.Name = "elementSizeNumericUpDown";
             elementSizeNumericUpDown.Size = new Size(150, 27);
@@ -77,50 +144,34 @@
             // 
             // stopGameButton
             // 
-            stopGameButton.Location = new Point(22, 159);
+            stopGameButton.BackgroundImage = (Image)resources.GetObject("stopGameButton.BackgroundImage");
+            stopGameButton.BackgroundImageLayout = ImageLayout.Stretch;
+            stopGameButton.Location = new Point(31, 253);
             stopGameButton.Name = "stopGameButton";
-            stopGameButton.Size = new Size(194, 29);
+            stopGameButton.Size = new Size(65, 52);
             stopGameButton.TabIndex = 3;
-            stopGameButton.Text = "Уничтожить жизнь";
             stopGameButton.UseVisualStyleBackColor = true;
             stopGameButton.Click += stopGameButton_Click;
             // 
             // startGameButton
             // 
-            startGameButton.Location = new Point(22, 104);
+            startGameButton.BackgroundImage = (Image)resources.GetObject("startGameButton.BackgroundImage");
+            startGameButton.BackgroundImageLayout = ImageLayout.Stretch;
+            startGameButton.Location = new Point(31, 174);
             startGameButton.Name = "startGameButton";
-            startGameButton.Size = new Size(194, 29);
+            startGameButton.Size = new Size(65, 41);
             startGameButton.TabIndex = 2;
-            startGameButton.Text = "Запустить жизнь";
             startGameButton.UseVisualStyleBackColor = true;
             startGameButton.Click += startGameButton_Click;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(22, 10);
-            label1.Name = "label1";
-            label1.Size = new Size(125, 20);
-            label1.TabIndex = 1;
-            label1.Text = "Выбор элемента";
-            // 
-            // comboBoxElements
-            // 
-            comboBoxElements.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxElements.FormattingEnabled = true;
-            comboBoxElements.Items.AddRange(new object[] { "Огонь", "Вода", "Земля", "Камень" });
-            comboBoxElements.Location = new Point(22, 38);
-            comboBoxElements.Name = "comboBoxElements";
-            comboBoxElements.Size = new Size(194, 28);
-            comboBoxElements.TabIndex = 0;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(869, 531);
+            ClientSize = new Size(920, 593);
             Controls.Add(panel1);
             Controls.Add(sandBox);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "MainForm";
             Text = "Ephemera";
             ((System.ComponentModel.ISupportInitialize)sandBox).EndInit();
@@ -134,10 +185,14 @@
 
         private PictureBox sandBox;
         private Panel panel1;
-        private ComboBox comboBoxElements;
-        private Label label1;
         private Button startGameButton;
         private Button stopGameButton;
         private NumericUpDown elementSizeNumericUpDown;
+        private Label label2;
+        private Button FireButton;
+        private Button WaterButton;
+        private Button Stone;
+        private Button SoilButton;
+        private Label CurrentElement;
     }
 }

@@ -1,5 +1,8 @@
 ﻿
 using Ephemera.ElementModels;
+using Ephemera.Enums;
+using System.Net.Http.Headers;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace Ephemera.Managers
 {
@@ -7,9 +10,13 @@ namespace Ephemera.Managers
     {
         public List<ElementBase> Elements { get; private set; } = new List<ElementBase>();
         private List<ElementBase> toRemove = new List<ElementBase>();
+        private HashSet<ElementBase> currentlyWet = new HashSet<ElementBase>();
+
         public int Width { get; private set; }
         public int Height { get; private set; }
-        public int IntervalOfMomet { get; private set; } = 200;
+        public int IntervalOfMomet { get; private set; } = 100;
+        public double averageFade = 0;
+        public bool isFinished = false;
         public void AddElement(ElementBase element)
         {
             Elements.Add(element);
@@ -47,32 +54,69 @@ namespace Ephemera.Managers
 
 
 
-
         public void UpdateAll()
         {
             foreach (var element in Elements)
             {
                 element.Update(this);
-                element.ApplyGravity(this); // Гравитация
-            }
+                if (element.State == BasicStates.Wet && !currentlyWet.Contains(element))
+                {
 
-            // Удаляем сгоревшие элементы
+                    element.State = BasicStates.Normal;
+                }
+                element.ApplyGravity(this); // Гравитация
+                averageFade += element.fadeTime;
+            }
+            averageFade /= Elements.Count;
+
+            currentlyWet.Clear();
+            
+
+            List<ElementBase> toAddElems = new List<ElementBase>();
+
+            // Отмечаем позиции, куда добавлять пар
             foreach (var e in toRemove)
             {
+                if (e is Water)
+                {
+                    var s = new Steam(e.X,e.Y);
+                    s.Width = e.Width;
+                    s.Height = e.Height;
+                    toAddElems.Add(s);
+                }
+                if(e is Stone)
+                {
+                    var s = new Sand(e.X, e.Y);
+                    s.Width = e.Width;
+                    s.Height = e.Height;
+                    toAddElems.Add(s);
+                }
                 Elements.Remove(e);
             }
             toRemove.Clear();
+
+            // Добавляем пар после удаления
+            foreach (var elem in toAddElems)
+            {
+                Elements.Add(elem);
+            }
+
         }
         public bool RandomChance(int percent)
         {
             return new Random().Next(100) < percent;
         }
-
+        
         public void Reset()
         {
             Elements.Clear();
+            averageFade = 0;
         }
 
+        internal void MarkAsWet(ElementBase element)
+        {
+            currentlyWet.Add(element);
+        }
     }
 
 }

@@ -12,11 +12,12 @@ namespace Ephemera.ElementModels
             X = x;
             Y = y;
             State = BasicStates.Burning;
+            currentColor = Color.Red;
         }
 
         public override void Draw(Graphics g)
         {
-            Brush brush = new SolidBrush(Color.Red);
+            Brush brush = new SolidBrush(currentColor);
             g.FillRectangle(brush, X, Y, Width, Height);
         }
 
@@ -24,14 +25,14 @@ namespace Ephemera.ElementModels
         public override void Update(WorldController world)
         {
             burnTime--;
+            ChangeOthersStates(world, BasicStates.Burning);
 
             // Если время горения закончилось, удаляем огонь
-            if (burnTime <= 0)
+            if (burnTime <= 0 || State == BasicStates.Wet)
             {
                 world.MarkForDeletion(this);
                 return;
             }
-            IgniteOthers(world);
 
         }
     }

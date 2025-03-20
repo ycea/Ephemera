@@ -59,5 +59,15 @@ namespace Ephemera.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap png_transparent_media_player_button_play_start_begin_media_player_icon_thumbnail {
+            get {
+                object obj = ResourceManager.GetObject("png-transparent-media-player-button-play-start-begin-media-player-icon-thumbnail", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

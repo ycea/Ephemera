@@ -2,7 +2,7 @@
 using Ephemera.Enums;
 using Ephemera.Managers;
 
-namespace Ephemera.ElementModels 
+namespace Ephemera.ElementModels
 {
 
 
@@ -18,6 +18,7 @@ namespace Ephemera.ElementModels
             Y = y;
             State = BasicStates.Normal;
             grassState = GrassStates.None;
+            currentColor = Color.Brown;
             grassGrowthTime = 0;
             burnTime = 0;
         }
@@ -31,28 +32,35 @@ namespace Ephemera.ElementModels
             switch (State)
             {
                 case BasicStates.Wet:
-                    soilBrush = new SolidBrush(Color.SaddleBrown);
+                    currentColor = Color.SaddleBrown;
                     break;
                 case BasicStates.Burnt:
-                    soilBrush = new SolidBrush(Color.Gray);
+                    currentColor = Color.Gray;
                     break;
                 default:
-                    soilBrush = new SolidBrush(Color.Brown);
+                    if(inWaterTime > 0)
+                    {
+                        currentColor = Color.SaddleBrown;
+                        break;
+                    }
+                    currentColor = Color.Brown;
                     break;
             }
-
+            soilBrush = new SolidBrush(Color.FromArgb(Math.Min(255, fadeTime * 10), currentColor));
             g.FillRectangle(soilBrush, X, Y, Width, Height);
 
             // Определяем цвет травы
             if (grassState == GrassStates.Growing || grassState == GrassStates.FullyGrown || grassState == GrassStates.Burning)
             {
-                grassBrush = new SolidBrush(grassState == GrassStates.Burning ? Color.OrangeRed : Color.Green);
+                grassBrush = new SolidBrush(grassState == GrassStates.Burning ? Color.FromArgb(Math.Min(255, fadeTime * 10), Color.Orange)
+                    : Color.FromArgb(Math.Min(255, fadeTime * 10), Color.Green));
                 g.FillRectangle(grassBrush, X, Y, Width, Height / 4); // Покрываем верхнюю часть земли
             }
         }
 
         public override void Update(WorldController world)
         {
+            base.Update(world);
             CheckGrassBurning();
 
             if (State == BasicStates.Burnt)
@@ -69,7 +77,7 @@ namespace Ephemera.ElementModels
             else if (grassState == GrassStates.Growing)
             {
                 grassGrowthTime++;
-                if (grassGrowthTime >= world.IntervalOfMomet/10)
+                if (grassGrowthTime >= world.IntervalOfMomet / 10)
                 {
                     grassState = GrassStates.FullyGrown;
                 }
@@ -77,14 +85,9 @@ namespace Ephemera.ElementModels
             else if (grassState == GrassStates.Burning)
             {
                 burnTime++;
-                if (State != BasicStates.Burning)
-                {
-                    State = BasicStates.Burning;
-                }
+                ChangeOthersStates(world, BasicStates.Burning);
 
-                IgniteOthers(world);
-
-                if (burnTime >= world.IntervalOfMomet/20)
+                if (burnTime >= world.IntervalOfMomet /4)
                 {
                     grassState = GrassStates.None;
                     State = BasicStates.Burnt; // Теперь земля становится навсегда Burnt
@@ -103,21 +106,10 @@ namespace Ephemera.ElementModels
                     grassState = GrassStates.Burning;
                 }
             }
-        }
-
-
-        public void Ignite()
-        {
-            if (grassState == GrassStates.FullyGrown)
+            if(State == BasicStates.Wet && grassState == GrassStates.Burning)
             {
-                grassState = GrassStates.Burning;
-                burnTime = 0;
+                grassState = GrassStates.None;
             }
-        }
-
-        public void Water()
-        {
-            State = BasicStates.Wet;
         }
     }
 }
