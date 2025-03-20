@@ -22,6 +22,7 @@ namespace Ephemera
             canvas = new CanvasManager(sandBox, world);
             gameLoop = new GameLoop(world, canvas);
             CurrentElement.Text = $"Текущий элемент: {selected}";
+            canvas.Redraw();
 
             this.MaximizeBox = false;
         }

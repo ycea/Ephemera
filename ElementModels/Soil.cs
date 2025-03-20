@@ -52,7 +52,7 @@ namespace Ephemera.ElementModels
             // Определяем цвет травы
             if (grassState == GrassStates.Growing || grassState == GrassStates.FullyGrown || grassState == GrassStates.Burning)
             {
-                grassBrush = new SolidBrush(grassState == GrassStates.Burning ? Color.FromArgb(Math.Min(255, fadeTime * 10), Color.Orange)
+                grassBrush = new SolidBrush(grassState == GrassStates.Burning ? Color.FromArgb(Math.Min(255, fadeTime * 10), Color.OrangeRed)
                     : Color.FromArgb(Math.Min(255, fadeTime * 10), Color.Green));
                 g.FillRectangle(grassBrush, X, Y, Width, Height / 4); // Покрываем верхнюю часть земли
             }

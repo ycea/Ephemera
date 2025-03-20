@@ -27,10 +27,12 @@ namespace Ephemera.Managers
 
         public void Start()
         {
+
             if (!isRunning)
             {
-                isRunning = true;
+                numOfFinishes = 0;
                 world.isFinished = false;
+                isRunning = true;
                 timer.Start();
             }
         }
@@ -47,7 +49,7 @@ namespace Ephemera.Managers
             {
                 world.UpdateAll();
             }
-            if (world.averageFade < 17 && world.averageFade > 0)
+            if (world.averageFade < 17)
             {
                 Stop();
                 isRunning = false;

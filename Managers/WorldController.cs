@@ -58,6 +58,8 @@ namespace Ephemera.Managers
         {
             foreach (var element in Elements)
             {
+
+
                 element.Update(this);
                 if (element.State == BasicStates.Wet && !currentlyWet.Contains(element))
                 {
@@ -66,9 +68,17 @@ namespace Ephemera.Managers
                 }
                 element.ApplyGravity(this); // Гравитация
                 averageFade += element.fadeTime;
-            }
-            averageFade /= Elements.Count;
 
+
+            }
+            if (Elements.Count > 0)
+            {
+                averageFade /= Elements.Count;
+            }
+            else
+            {
+                averageFade = 0;
+            }
             currentlyWet.Clear();
             
 
