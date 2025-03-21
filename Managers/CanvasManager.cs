@@ -58,8 +58,8 @@ namespace Ephemera.Managers
                     // Генерируем несколько точек, чтобы создать зигзагообразную трещину
                     for (int j = 0; j < 6; j++)
                     {
-                        int offsetX = rand.Next(-20, 20);
-                        int offsetY = rand.Next(-20, 20);
+                        int offsetX = rand.Next(-20, rand.Next(20,50));
+                        int offsetY = rand.Next(-20, rand.Next(20, 50));
                         Point last = crackPoints.Last();
                         crackPoints.Add(new Point(
                             Math.Clamp(last.X + offsetX, 0, pictureBox.Width),

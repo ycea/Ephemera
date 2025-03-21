@@ -88,7 +88,6 @@ namespace Ephemera
 
                 // Проверяем, нет ли уже элемента в этом месте
                 bool hasCollision = world.Elements.Any(e => world.CheckCollision(e, element));
-
                 if (!hasCollision || selected == "Огонь")
                 {
                     world.AddElement(element);

@@ -37,10 +37,20 @@ namespace Ephemera.Managers
 
             if (!isRunning)
             {
-                numOfFinishes = 0;
-                world.isFinished = false;
-                isRunning = true;
-                timer.Start();
+                if (numOfFinishes > 3)
+                {
+                    numOfFinishes = 0;
+                }
+                if (numOfFinishes == 0)
+                {
+                    isRunning = true;
+                    timer.Start();
+                }
+                else
+                {
+                    numOfFinishes++;
+                    Run(); 
+                }
             }
         }
 
@@ -59,18 +69,13 @@ namespace Ephemera.Managers
             if (world.averageFade < 17)
             {
                 Stop();
-                isRunning = false;
+
                 canvas.FinishWorld();
                 world.isFinished = true;
                 numOfFinishes++;
                 if (numOfFinishes < 2)
                 {
                     ShowQuote();
-                }
-                if (numOfFinishes > 4)
-                {
-
-                    world.Reset();
                 }
                 
                 return;

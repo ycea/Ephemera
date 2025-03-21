@@ -8,7 +8,7 @@ namespace Ephemera.ElementModels
     {
         public int X { get; set; }
         public int Y { get; set; }
-        public int fadeTime { get; set; } = 100;
+        public int fadeTime { get; set; } = 300;
         public int Width { get; set; } = 10;
         public int Height { get; set; } = 10;
         protected int weight { get; set; } = 5;

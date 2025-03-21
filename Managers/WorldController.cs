@@ -120,6 +120,7 @@ namespace Ephemera.Managers
         public void Reset()
         {
             Elements.Clear();
+            isFinished = false;
             averageFade = 0;
         }
 
