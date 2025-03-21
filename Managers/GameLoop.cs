@@ -9,13 +9,20 @@ namespace Ephemera.Managers
         private CanvasManager canvas;
         private bool isRunning;
         private int numOfFinishes = 0;
-        private List<string> quotes = new List<string>()
+        private List<(string, string)> quotes = new List<(string, string)>()
         {
-            "Мир не оканчивается. Оканчиваются только истории.",
-            "И в конце концов, даже звезды гаснут...",
-            "Каждый конец — это новый шанс.",
-            "Не бойся тьмы. Это просто отсутствие света."
+            ("В одну реку нельзя войти дважды.", "Гераклит"),
+            ("Время есть река из возникающих событий; сильное её течение. Только появится что-нибудь, как уже проносится мимо.", "Марк Аврелий"),
+            ("Всё составное непостоянно.", "Будда"),
+            ("Искусство существует, чтобы мы не погибли от истины.", "Фридрих Ницше"),
+            ("Творчество — это смерть, поставленная на паузу.", "Альбер Камю"),
+            ("Искусство — это интенсивная форма индивидуализма.", "Оскар Уайльд"),
+            ("То, что сжимается, расширяется. То, что ослабевает, усиливается. То, что разрушается, обновляется.", "Лао-цзы"),
+            ("Всё имеет своё время... время разрушать и время строить.", "Экклезиаст"),
+            ("Цени момент. В нем — вечность.", "Сэн-но Рикю"),
+            ("Человек есть не что иное, как то, чем он делает себя сам.", "Жан-Поль Сартр")
         };
+
         public GameLoop(WorldController wc, CanvasManager cm)
         {
             world = wc;
@@ -75,8 +82,8 @@ namespace Ephemera.Managers
             if (quotes.Count == 0) return;
 
             Random rand = new Random();
-            string selectedQuote = quotes[rand.Next(quotes.Count)];
-            MessageBox.Show(selectedQuote, "Мудрые слова", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var selectedQuote = quotes[rand.Next(quotes.Count)];
+            MessageBox.Show(selectedQuote.Item1, selectedQuote.Item2, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 
